@@ -147,8 +147,9 @@ def input_interpretation(input_string):
     return "Input valid. Output: " + str(character_list[1:-1])
 
 
+#                                                                                           CONFIG FILE GOES HERE!
 # despachetare tuplu in mai multe liste
-states, input_alphabet, tape_alphabet, transitions, start_accept_reject_states = load_tm("ex2_1_exemplu.txt")
+states, input_alphabet, tape_alphabet, transitions, start_accept_reject_states = load_tm("prefix_checker_config_file.txt")
 # bool in care se verifica daca TM este valid
 valid = validate(states, input_alphabet, tape_alphabet, transitions, start_accept_reject_states)
 

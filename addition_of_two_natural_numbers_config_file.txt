@@ -1,0 +1,70 @@
+# Echipa: Ignat Eduardo, Neagu Marian
+
+States:
+	q0
+	q1
+	q2
+	q3
+	q4
+	q_accept
+	q_reject
+End
+
+Input alphabet: 
+	0
+	a
+End
+
+#
+# skip that
+#
+
+Tape alphabet: 
+	0
+	x
+	_
+End
+
+# Explicatie:
+# Input:
+# 	-Numerele naturale sunt reprezentate ca zerouri (0000 va fi 4, deoarece sunt 4 zerouri)
+# 	-Caracterul a este caracterul de adunare (+) dintre cele 2 numere naturale
+#
+# 	q0 este stare initiala, q_accept este stare de acceptare, q_reject este stare de reject
+#
+# 	In q0, daca caracterul curent este 0 se schimba in x, iar dupa se continua in dreapta in q1
+# 	In q1, daca se gaseste 0, se continua in dreapta si nu se schimba. Daca se 
+# gaseste caracterul 'a', se ignora si se continua in q2. Daca, in schimb, se gaseste caracterul
+#	blank (_), atunci intra in starea de reject (input-ul nu este acceptat)
+# 	In q2, daca se gaseste 0, se continua in dreapta si nu se schimba. Daca se
+# gaseste caracterul blank, se va schimba in 0 si se continua in stanga in q3
+# 	In q3, daca se gaseste 0, se countinua in stanga, pana cand se va intalni caracterul 'a'. Cand se
+# intalneste caracterul 'a' se continua in stanga in q4.
+#	In q4, daca se gaseste 0, se countinua in stanga, pana cand se va intalni caracterul 'x'. Cand se
+# intalneste caracterul 'x' se continua in dreapta in q0.
+#	In q0, daca se gaseste 0, se repeta de mai sus, dar daca se intalneste caracterul 'a', acesta se 
+# schimba in caracterul blank, si intra in starea de acceptare. Ceea ce ramane la final sunt niste # eventuale 'x'-uri la inceput, un caracter blank, si, la final, output-ul: un numar de zerouri care este
+# egal cu suma dintre cele 2 numere.
+# 	EX: Pt. input-ul: 00c000 (adica 2+3), va ramane dupa calcul: xx_00000
+
+ 
+Transitions: 
+
+	q0 q1 0 x R
+	q1 q1 0 e R
+	q1 q2 a e R
+	q2 a2 0 e R
+	q2 q3 _ 0 L
+	q3 q3 0 e L
+	q3 q4 a e L
+	q4 q4 0 e L
+	q4 q0 x e R
+	q0 q_accept a _ R
+	q1 q_reject _ _ R
+End
+
+Start state: q0
+
+Accept state: q_accept
+
+Reject state: q_reject

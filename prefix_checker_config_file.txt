@@ -1,0 +1,110 @@
+# Echipa: Ignat Eduardo, Neagu Marian-Madalin
+# Testat in simulatorul de la ex 2
+
+States:
+    q1
+    q2
+    q3
+    q4
+    q5
+    q6
+    q7
+    q8
+    q9
+    q10
+    q11
+    q_accept
+    q_reject
+End
+
+#
+#
+#
+
+Input alphabet:
+    a
+    b
+    k
+    _
+End
+
+#
+
+Tape alphabet:
+    a
+    b
+    _
+    k
+# k - separator intre cuvant si prefix
+End
+
+# Explicatie:
+# Input:
+#	Cuvintele si prefixele sunt reprezentate de a si b, iar k este separatorul dintre ele.
+#
+#	Cele doua head-uri ale masinii turing sunt in capete opuse, deci la inceputul cuvantului si la sfarsitul prefixului.
+#	Astfel, primul head in locul in care este si ne deplasam cu celalalt capat pana la inceputul prefixului ( mai exact
+#	pe separator, iar apoi ne ducem inapoi pe prima litera).
+#	Apoi, comparam fiecare litera simultan din ambele capete si le mutam simultan. Daca intampinam doua litere care
+#	nu sunt la fel se trece in q_reject, altfel ajungem cu capatul din dreapta pe spatiul ce delimiteaza intregul input si
+#	trecem pe q_accept, desemnand faptul ca al doilea cuvant este prefixul primului.
+
+Transitions:
+# exemple de input: a a a a b k a a a a; b b b b k b a; b a b a b a k b a b
+# format tranzitii: [starea curenta] [stare next] [input head1] [suprascriere head1] [directie head1] [input head2] [suprascriere head2] [directie head2]
+    q1 q1 a a N a a L
+    q1 q2 a a N b b L
+    q1 q3 b b N b b L
+    q1 q4 b b N a a L
+    q1 q5 a a N k k R
+    q1 q6 b b N k k N
+
+    q2 q2 a a N a a L
+    q2 q1 a a N b b L
+    q2 q5 a a N k k R
+    q2 q6 b b N k k N
+
+    q3 q3 b b N a a L
+    q3 q1 b b N b b L
+    q3 q5 a a N k k R
+    q3 q6 b b N k k N
+
+    q4 q4 b b N b b L
+    q4 q1 b b N a a L
+    q4 q5 a a N k k R
+    q4 q6 b b N k k N
+
+    q5 q5 b b R b b R
+    q5 q7 a a R a a R
+    q5 q8 a a N b b N
+    q5 q9 b b N a a N
+    q5 q_accept b b N _ _ R
+    q5 q11 a a N _ _ N
+
+    q6 q5 b b N k k R
+
+    q7 q5 a a R a a R
+    q7 q7 b b R b b R
+    q7 q_accept a a N _ _ N
+    q7 q10 b b N _ _ N
+
+    q8 q_reject a a N b b N
+
+    q9 q_reject b b N a a N
+
+    q10 q_accept b b N _ _ N
+
+    q11 q_accept a a N _ _ N
+End
+
+Start state:
+    q1
+End
+
+Accept state:
+    q_accept
+End
+
+Reject state:
+    q_reject
+End
